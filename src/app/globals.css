@@ -1,26 +1,120 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Tailwind v4 CSS-first config (replaces tailwind.config.ts from the brief).
+  Brand tokens become utilities automatically:
+    --color-beni  -> bg-beni / text-beni / border-beni
+    --font-syne   -> font-syne
+    --radius-*: 0 -> all rounded-* utilities collapse to sharp edges
+  next/font sets --font-*-src on <html>; theme tokens reference them.
+*/
+@theme {
+  /* Brand palette (locked) */
+  --color-sumi: #0d0d0d;
+  --color-beni: #c84b31;
+  --color-beni-light: #f0875f;
+  --color-washi: #f5f3ee;
+  --color-tetsu: #1a1a1a;
+  --color-hai: #2c2c2c;
+  --color-muted: #d8d4cc;
+  --color-success: #2ecc71;
+
+  /* Typography — bound to next/font css variables */
+  --font-syne: var(--font-syne-src), "Syne", sans-serif;
+  --font-inter: var(--font-inter-src), "Inter", sans-serif;
+  --font-noto: var(--font-noto-src), "Noto Serif JP", serif;
+
+  /* Zero border-radius everywhere — sharp edges only */
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-4xl: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ---- Base resets ---- */
+* {
+  border-color: var(--color-hai);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background-color: var(--color-sumi);
+  color: var(--color-washi);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-sumi);
+  color: var(--color-washi);
+  font-family: var(--font-inter);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-beni);
+  color: var(--color-washi);
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-sumi);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-hai);
+  border: 2px solid var(--color-sumi);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-beni);
+}
+html {
+  scrollbar-color: var(--color-hai) var(--color-sumi);
+}
+
+/* ---- 開発 kanji watermark helper ---- */
+.kanji-watermark {
+  font-family: var(--font-noto);
+  font-weight: 600;
+  color: var(--color-washi);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+/* ---- Fluid type helpers (brief spec) ---- */
+.fluid-h1 {
+  font-size: clamp(2.5rem, 8vw, 7rem);
+}
+.fluid-h2 {
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
+}
+.fluid-body {
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+}
+
+/* iOS zoom prevention — 16px min on inputs */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* ---- Reduced motion: kill all animation/transition ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
