@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Syne, Inter, Noto_Serif_JP } from "next/font/google";
+import { Syne, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SITE } from "@/lib/constants";
@@ -20,13 +20,10 @@ const inter = Inter({
   display: "swap",
 });
 
-const notoSerifJp = Noto_Serif_JP({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-noto-src",
-  display: "swap",
-  preload: false,
-});
+// Note: Noto Serif JP is intentionally NOT loaded via next/font. As a CJK font
+// it emits ~370 unicode-range @font-face rules (~277KB render-blocking CSS) for
+// a handful of decorative kanji (開 / 発). We use a system mincho/serif stack
+// instead — see --font-noto in globals.css. Zero CSS, near-identical glyphs.
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.domain),
@@ -95,7 +92,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${inter.variable} ${notoSerifJp.variable}`}
+      className={`${syne.variable} ${inter.variable}`}
     >
       <head>
         <link rel="preconnect" href={SITE.backendUrl} />

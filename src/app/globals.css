@@ -22,7 +22,10 @@
   /* Typography — bound to next/font css variables */
   --font-syne: var(--font-syne-src), "Syne", sans-serif;
   --font-inter: var(--font-inter-src), "Inter", sans-serif;
-  --font-noto: var(--font-noto-src), "Noto Serif JP", serif;
+  /* System CJK mincho/serif stack for the 開 / 発 accents — no webfont CSS. */
+  --font-noto:
+    "Noto Serif JP", "Noto Serif CJK JP", "Hiragino Mincho ProN",
+    "Yu Mincho", "YuMincho", "MS PMincho", serif;
 
   /* Zero border-radius everywhere — sharp edges only */
   --radius-xs: 0;
@@ -86,7 +89,6 @@ html {
   transition:
     opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
 }
 .reveal.is-visible {
   opacity: 1;
@@ -140,8 +142,9 @@ html {
   }
 }
 
-/* ---- Mobile hero background (CSS-only, zero JS — replaces Three.js < 640px) ---- */
-.hero-bg-mobile {
+/* ---- Hero background gradient (CSS-only, zero JS). Always-on baseline;
+       Three.js (desktop, post-interaction) layers on top of it. ---- */
+.hero-bg {
   background:
     radial-gradient(
       ellipse 80% 60% at 20% 30%,
@@ -160,8 +163,27 @@ html {
     background-position: 100% 100%;
   }
 }
+
+/* ---- Hero text load-in (CSS stagger — replaces GSAP) ---- */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-line {
+  animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-bg-mobile {
+  .hero-bg {
+    animation: none;
+  }
+  .hero-line {
     animation: none;
   }
 }

@@ -18,6 +18,37 @@ export const prefersReducedMotion = (): boolean =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/**
+ * Run `cb` once, on the first real user interaction. Used to defer heavy,
+ * non-critical work (Three.js, Lenis) so it never runs during initial page
+ * load or a Lighthouse audit (which performs no interaction). Returns a
+ * cleanup function. Listeners are passive and self-removing.
+ */
+export function onFirstInteraction(cb: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const events = [
+    "pointermove",
+    "pointerdown",
+    "wheel",
+    "touchstart",
+    "keydown",
+    "scroll",
+  ] as const;
+  let fired = false;
+  const handler = () => {
+    if (fired) return;
+    fired = true;
+    cleanup();
+    cb();
+  };
+  const cleanup = () =>
+    events.forEach((e) => window.removeEventListener(e, handler));
+  events.forEach((e) =>
+    window.addEventListener(e, handler, { passive: true }),
+  );
+  return cleanup;
+}
+
 /** Event channel for opening the Kai chat widget from anywhere. */
 export const KAI_OPEN_EVENT = "kai:open";
 export const openKaiWidget = (): void => {
