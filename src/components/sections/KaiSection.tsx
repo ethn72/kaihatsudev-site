@@ -65,7 +65,7 @@ export function KaiSection() {
                   key={i}
                   className={
                     m.role === "user"
-                      ? "max-w-[80%] self-end bg-beni px-4 py-2.5 text-sm text-washi"
+                      ? "max-w-[80%] self-end bg-beni px-4 py-2.5 text-sm text-white"
                       : "max-w-[80%] self-start bg-hai/50 px-4 py-2.5 text-sm text-muted"
                   }
                 >

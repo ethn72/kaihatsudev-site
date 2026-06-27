@@ -12,7 +12,7 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <KaiMark className="h-8 w-8 text-sm" />
               <span className="font-syne text-base font-bold tracking-tight text-washi">
-                KAIHATSU<span className="text-beni"> DEV</span>
+                KAIHATSU<span className="text-beni-light"> DEV</span>
               </span>
             </div>
             <p className="mt-4 font-noto text-sm text-muted">

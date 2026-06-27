@@ -18,7 +18,7 @@ export default function ChatPage() {
         <Link href="/" className="flex items-center gap-3" aria-label="Home">
           <KaiMark className="h-9 w-9 text-sm" />
           <span className="font-syne text-base font-bold tracking-tight text-washi">
-            KAIHATSU<span className="text-beni"> DEV</span>
+            KAIHATSU<span className="text-beni-light"> DEV</span>
           </span>
         </Link>
         <Link

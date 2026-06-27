@@ -12,10 +12,10 @@ export function QuoteCard({ quote }: { quote: Quote }) {
     <div className="mt-2 w-full border border-hai bg-tetsu text-washi">
       {/* Beni header */}
       <div className="border-b border-beni bg-beni px-4 py-3">
-        <p className="font-syne text-[10px] font-bold uppercase tracking-[0.2em] text-washi/80">
+        <p className="font-syne text-[10px] font-bold uppercase tracking-[0.2em] text-white">
           Estimated Quote
         </p>
-        <p className="font-syne text-base font-bold leading-tight text-washi">
+        <p className="font-syne text-base font-bold leading-tight text-white">
           {quote.projectTitle}
         </p>
       </div>
@@ -42,7 +42,7 @@ export function QuoteCard({ quote }: { quote: Quote }) {
                     </p>
                   )}
                 </div>
-                <span className="shrink-0 font-syne text-sm font-bold text-beni">
+                <span className="shrink-0 font-syne text-sm font-bold text-beni-light">
                   {money(s.price)}
                 </span>
               </li>

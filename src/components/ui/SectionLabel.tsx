@@ -10,7 +10,7 @@ export function SectionLabel({ children, className }: SectionLabelProps) {
   return (
     <div className={cn("flex items-center gap-4", className)}>
       <span className="h-px w-10 bg-beni" aria-hidden="true" />
-      <span className="font-syne text-xs font-bold uppercase tracking-[0.25em] text-beni">
+      <span className="font-syne text-xs font-bold uppercase tracking-[0.25em] text-beni-light">
         {children}
       </span>
     </div>

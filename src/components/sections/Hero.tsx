@@ -14,15 +14,47 @@ const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
 export function Hero() {
   const rootRef = useRef<HTMLElement>(null);
   const [show3D, setShow3D] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Load the 3D scene only after the hero text is painted & interactive.
+  // Track viewport so we can skip Three.js entirely on phones.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // Load the 3D scene only when the hero is actually in view (desktop only).
+  // IntersectionObserver avoids parsing Three.js until it's needed.
   useEffect(() => {
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    if (reduce) return; // keep it static for reduced-motion users
-    const t = setTimeout(() => setShow3D(true), 1200);
-    return () => clearTimeout(t);
+    if (reduce || !rootRef.current) return; // static for reduced-motion users
+    const el = rootRef.current;
+    let idleId: number | undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        // Defer the heavy Three.js init to idle time so it lands after the page
+        // is interactive — keeps it off the critical path (protects TBT).
+        const ric = window.requestIdleCallback;
+        idleId = ric
+          ? ric(() => setShow3D(true), { timeout: 2500 })
+          : window.setTimeout(() => setShow3D(true), 1200);
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      if (idleId !== undefined) {
+        if (window.cancelIdleCallback) window.cancelIdleCallback(idleId);
+        else clearTimeout(idleId);
+      }
+    };
   }, []);
 
   // GSAP staggered reveal of the hero lines on load.
@@ -55,9 +87,13 @@ export function Hero() {
       id="hero"
       className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-hidden px-5 sm:px-8"
     >
-      {/* 3D background */}
+      {/* Background: CSS gradient on mobile (zero JS), Three.js on desktop */}
       <div className="pointer-events-none absolute inset-0 -z-0">
-        {show3D && <HeroScene />}
+        {isMobile ? (
+          <div className="hero-bg-mobile absolute inset-0" aria-hidden="true" />
+        ) : (
+          show3D && <HeroScene />
+        )}
       </div>
 
       {/* 開発 watermark */}
@@ -91,7 +127,7 @@ export function Hero() {
           Web Development Studio Based in Malaysia
         </p>
 
-        <p className="hero-reveal mt-4 font-noto text-lg text-beni">
+        <p className="hero-reveal mt-4 font-noto text-lg text-beni-light">
           {SITE.kanji} — {SITE.tagline}
         </p>
 

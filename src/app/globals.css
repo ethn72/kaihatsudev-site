@@ -79,6 +79,93 @@ html {
   scrollbar-color: var(--color-hai) var(--color-sumi);
 }
 
+/* ---- Scroll reveal (CSS + IntersectionObserver — replaces framer-motion) ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Enter animations for menu / chat panel (replaces AnimatePresence) ---- */
+@keyframes kai-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes kai-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes kai-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-fade-in {
+  animation: kai-fade-in 0.25s ease both;
+}
+.animate-pop-in {
+  animation: kai-pop-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-slide-in {
+  animation: kai-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---- Mobile hero background (CSS-only, zero JS — replaces Three.js < 640px) ---- */
+.hero-bg-mobile {
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 20% 30%,
+      rgba(200, 75, 49, 0.1) 0%,
+      transparent 60%
+    ),
+    radial-gradient(ellipse 90% 70% at 80% 70%, #161616 0%, #0d0d0d 70%);
+  background-size: 200% 200%;
+  animation: hero-drift 18s ease-in-out infinite alternate;
+}
+@keyframes hero-drift {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-mobile {
+    animation: none;
+  }
+}
+
 /* ---- 開発 kanji watermark helper ---- */
 .kanji-watermark {
   font-family: var(--font-noto);

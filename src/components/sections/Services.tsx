@@ -20,7 +20,7 @@ export function Services() {
           {SERVICES.map((service, i) => (
             <Reveal as="li" key={service.number} delay={(i % 3) * 0.08}>
               <article className="group h-full border-l-2 border-transparent bg-tetsu p-7 transition-all duration-300 hover:-translate-y-1 hover:border-beni hover:bg-tetsu/80 sm:p-8">
-                <span className="font-syne text-sm font-bold text-beni">
+                <span className="font-syne text-sm font-bold text-beni-light">
                   {service.number}
                 </span>
                 <h3 className="mt-4 font-syne text-xl font-bold text-washi">

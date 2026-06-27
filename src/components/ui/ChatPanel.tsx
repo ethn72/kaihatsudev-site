@@ -131,7 +131,7 @@ export function ChatPanel({
                 className={cn(
                   "max-w-[85%] px-4 py-2.5 text-sm leading-relaxed",
                   m.role === "user"
-                    ? "ml-auto bg-beni text-washi"
+                    ? "ml-auto bg-beni text-white"
                     : "mr-auto bg-hai/50 text-washi",
                 )}
               >
@@ -189,7 +189,7 @@ export function ChatPanel({
         <button
           type="submit"
           disabled={streaming || !input.trim()}
-          className="flex h-11 min-w-11 items-center justify-center bg-beni px-4 font-syne text-sm font-bold uppercase tracking-wider text-washi transition-colors hover:bg-beni-light disabled:opacity-40"
+          className="flex h-11 min-w-11 items-center justify-center bg-beni px-4 font-syne text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-beni-light hover:text-sumi disabled:opacity-40"
           aria-label="Send message"
         >
           Send

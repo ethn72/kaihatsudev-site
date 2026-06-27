@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn, openKaiWidget, scrollToSection } from "@/lib/utils";
 import { LogoMark } from "@/components/ui/Logo";
@@ -81,7 +80,7 @@ export function Nav() {
           >
             <LogoMark className="h-7 w-7 text-washi" />
             <span className="font-syne text-base font-bold tracking-tight text-washi">
-              KAIHATSU<span className="text-beni"> DEV</span>
+              KAIHATSU<span className="text-beni-light"> DEV</span>
             </span>
           </a>
 
@@ -94,7 +93,7 @@ export function Nav() {
                   className={cn(
                     "font-syne text-sm font-bold uppercase tracking-wider transition-colors duration-200",
                     active === link.id
-                      ? "text-beni"
+                      ? "text-beni-light"
                       : "text-muted hover:text-washi",
                   )}
                 >
@@ -136,35 +135,26 @@ export function Nav() {
       </header>
 
       {/* Mobile fullscreen overlay */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-sumi px-8 md:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            <ul className="flex flex-col gap-2">
-              {NAV_LINKS.map((link, i) => (
-                <motion.li
-                  key={link.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.08 + i * 0.06 }}
+      {open && (
+        <div className="animate-fade-in fixed inset-0 z-40 flex flex-col justify-center bg-sumi px-8 md:hidden">
+          <ul className="flex flex-col gap-2">
+            {NAV_LINKS.map((link, i) => (
+              <li
+                key={link.id}
+                className="animate-slide-in"
+                style={{ animationDelay: `${0.08 + i * 0.06}s` }}
+              >
+                <button
+                  onClick={() => go(link.id)}
+                  className="py-3 font-syne text-4xl font-bold uppercase tracking-tight text-washi hover:text-beni-light"
                 >
-                  <button
-                    onClick={() => go(link.id)}
-                    className="py-3 font-syne text-4xl font-bold uppercase tracking-tight text-washi hover:text-beni"
-                  >
-                    {link.label}
-                  </button>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  {link.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   );
 }

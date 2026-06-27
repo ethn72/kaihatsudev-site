@@ -21,7 +21,7 @@ export function Work() {
             <Reveal key={project.name} delay={i * 0.05}>
               <article className="group relative grid grid-cols-1 gap-6 bg-tetsu p-8 transition-colors duration-300 hover:bg-tetsu/70 sm:grid-cols-12 sm:p-12">
                 <div className="sm:col-span-1">
-                  <span className="font-syne text-sm font-bold text-beni">
+                  <span className="font-syne text-sm font-bold text-beni-light">
                     0{i + 1}
                   </span>
                 </div>

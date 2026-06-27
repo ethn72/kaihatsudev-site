@@ -27,7 +27,7 @@ export function KaiMark({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center bg-beni font-noto font-bold text-washi",
+        "inline-flex items-center justify-center bg-beni font-noto font-bold text-white",
         className,
       )}
       aria-hidden="true"
@@ -43,7 +43,7 @@ export function Wordmark({ className }: { className?: string }) {
     <span className={cn("flex items-center gap-3", className)}>
       <LogoMark className="h-7 w-7 text-washi" />
       <span className="font-syne text-lg font-bold tracking-tight text-washi">
-        KAIHATSU<span className="text-beni"> DEV</span>
+        KAIHATSU<span className="text-beni-light"> DEV</span>
       </span>
     </span>
   );
