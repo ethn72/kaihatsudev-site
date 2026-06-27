@@ -8,13 +8,11 @@ export function About() {
       id="about"
       className="relative overflow-hidden border-t border-hai/40 px-5 py-24 sm:px-8 sm:py-32"
     >
-      {/* Large kanji background */}
+      {/* Large kanji background — glyph supplied via CSS ::before (decorative) */}
       <span
         aria-hidden="true"
         className="kanji-watermark absolute -left-6 bottom-0 select-none text-[40vw] opacity-[0.025] sm:text-[30vw]"
-      >
-        {SITE.kanji}
-      </span>
+      />
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">

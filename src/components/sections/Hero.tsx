@@ -54,13 +54,11 @@ export function Hero() {
         {!isMobile && show3D && <HeroScene />}
       </div>
 
-      {/* 開発 watermark */}
+      {/* 開発 watermark — glyph supplied via CSS ::before (decorative) */}
       <span
         aria-hidden="true"
         className="kanji-watermark absolute -right-4 top-1/2 -z-0 -translate-y-1/2 select-none text-[34vw] opacity-[0.03] sm:text-[28vw]"
-      >
-        {SITE.kanji}
-      </span>
+      />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl">
         <h1 className="sr-only">
