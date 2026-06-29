@@ -118,7 +118,7 @@ export function ChatPanel({
       <div
         ref={scrollRef}
         className={cn(
-          "flex-1 space-y-3 overflow-y-auto p-4",
+          "min-h-0 flex-1 space-y-3 overflow-y-auto p-4",
           variant === "page" && "px-0",
         )}
       >
@@ -173,7 +173,11 @@ export function ChatPanel({
 
       <form
         onSubmit={onSubmit}
-        className="flex items-center gap-2 border-t border-hai bg-sumi p-3"
+        className="flex shrink-0 items-center gap-2 border-t border-hai bg-sumi p-3"
+        // Keep the input clear of the iOS home indicator.
+        style={{
+          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)",
+        }}
       >
         <label htmlFor="kai-input" className="sr-only">
           Message Kai
