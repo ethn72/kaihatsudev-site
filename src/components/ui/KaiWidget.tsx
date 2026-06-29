@@ -95,24 +95,37 @@ export function KaiWidget() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, closeWidget]);
 
-  // Lock background scroll while open (mobile only — the bottom sheet covers the
-  // page; on desktop the corner panel keeps the page visible). position:fixed +
-  // scroll restore is the cross-browser fix (overflow:hidden alone fails on iOS).
+  // While open: demote the nav (kai-open) and lock background scroll.
+  // Mobile uses position:fixed + scroll restore (the cross-browser fix —
+  // overflow:hidden alone fails on iOS). Desktop uses overflow:hidden with
+  // padding-right compensation so removing the scrollbar doesn't shift content.
   useEffect(() => {
     if (!open) return;
-    if (!window.matchMedia("(max-width: 640px)").matches) return;
-    const scrollY = window.scrollY;
+    const root = document.documentElement;
     const { body } = document;
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.width = "100%";
-    body.style.top = `-${scrollY}px`;
+    root.classList.add("kai-open");
+
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+    const scrollY = window.scrollY;
+    if (isMobile) {
+      body.style.overflow = "hidden";
+      body.style.position = "fixed";
+      body.style.width = "100%";
+      body.style.top = `-${scrollY}px`;
+    } else {
+      const scrollbar = window.innerWidth - root.clientWidth;
+      body.style.overflow = "hidden";
+      if (scrollbar > 0) body.style.paddingRight = `${scrollbar}px`;
+    }
+
     return () => {
+      root.classList.remove("kai-open");
       body.style.overflow = "";
       body.style.position = "";
       body.style.width = "";
       body.style.top = "";
-      window.scrollTo(0, scrollY);
+      body.style.paddingRight = "";
+      if (isMobile) window.scrollTo(0, scrollY);
     };
   }, [open]);
 
@@ -131,13 +144,13 @@ export function KaiWidget() {
 
   return (
     <>
-      {/* Frosted dimming backdrop — mobile only; tap to close */}
+      {/* Frosted dimming backdrop — full viewport, above the nav; tap to close */}
       {mounted && (
         <div
           onClick={closeWidget}
           aria-hidden="true"
           className={cn(
-            "kai-backdrop fixed inset-0 z-[9998] sm:hidden",
+            "kai-backdrop fixed inset-0 z-[9998]",
             closing ? "kai-backdrop-exit" : "kai-backdrop-enter",
           )}
         />

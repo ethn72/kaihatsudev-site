@@ -326,11 +326,18 @@ html {
   }
 }
 
-/* Frosted backdrop (mobile) */
+/* Frosted dimming backdrop — covers the whole viewport, above the nav */
 .kai-backdrop {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.75);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
+}
+
+/* Belt-and-suspenders: while the widget is open, demote the fixed nav so it can
+   never paint over the panel, regardless of stacking context. (The panel's own
+   <header> is statically positioned, so this z-index is a no-op for it.) */
+.kai-open header {
+  z-index: 10 !important;
 }
 .kai-backdrop-enter {
   animation: kai-fade-in 0.25s ease both;
