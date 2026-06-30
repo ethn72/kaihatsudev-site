@@ -6,7 +6,7 @@ export const SITE = {
   mark: "開",
   tagline: "Built right, the first time.",
   domain: "https://kaihatsu.dev",
-  email: "horngyarngtan@gmail.com",
+  email: "support@kaihatsu.dev",
   instagram: "@kaihatsu_dev",
   instagramUrl: "https://instagram.com/kaihatsu_dev",
   description:

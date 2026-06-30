@@ -14,7 +14,7 @@ const GREETING: ChatMessage = {
 };
 
 const ERROR_FALLBACK =
-  "I couldn't reach the server just now. Email horngyarngtan@gmail.com and Ethan will get right back to you.";
+  "I couldn't reach the server just now. Email support@kaihatsu.dev and Ethan will get right back to you.";
 
 function uid() {
   return typeof crypto !== "undefined" && "randomUUID" in crypto
